@@ -5,12 +5,12 @@
  * Description: By default, WooCommerce reduces stock for any order containing a product. This means stock will be reduced for both the initial purchase of a subscription product and all renewal orders. This extension stops stock being reduced for renewal order payments so that stock is only reduced on the initial purchase. Requires WooCommerce 2.4 or newer and Subscriptiosn 2.0 or newer.
  * Author: Prospress Inc.
  * Author URI: https://prospress.com/
- * License: GPLv2
+ * License: GPLv3
  *
  * GitHub Plugin URI: Prospress/woocommerce-subscriptions-do-not-reduce-stock-on-renewal
  * GitHub Branch: master
  *
- * Copyright 2016 Prospress, Inc.  (email : freedoms@prospress.com)
+ * Copyright 2017 Prospress, Inc.  (email : freedoms@prospress.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
