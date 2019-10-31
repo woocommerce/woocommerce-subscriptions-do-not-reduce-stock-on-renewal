@@ -6,6 +6,7 @@
  * Author: Prospress Inc.
  * Author URI: https://prospress.com/
  * License: GPLv3
+ * Version: 1.1.0
  *
  * GitHub Plugin URI: Prospress/woocommerce-subscriptions-do-not-reduce-stock-on-renewal
  * GitHub Branch: master
@@ -31,7 +32,6 @@
 */
 
 function wcs_do_not_reduce_renewal_stock( $reduce_stock, $order ) {
-
 	if ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order ) ) { // Subscriptions v2.0+
 		$reduce_stock = false;
 	} elseif ( class_exists( 'WC_Subscriptions_Renewal_Order' ) && WC_Subscriptions_Renewal_Order::is_renewal( $order ) ) {
@@ -41,3 +41,25 @@ function wcs_do_not_reduce_renewal_stock( $reduce_stock, $order ) {
 	return $reduce_stock;
 }
 add_filter( 'woocommerce_can_reduce_order_stock', 'wcs_do_not_reduce_renewal_stock', 10, 2 );
+
+/**
+ * When user is in the cart and has a Subscription we want to bypass `wc_get_held_stock_quantity` by setting `woocommerce_hold_stock_minutes` option to 0.
+ *
+ * @param bool $hold_stock_minutes The value we might want to modify.
+ *
+ * @return int|boolean
+ *
+ * @link  https://github.com/Prospress/woocommerce-subscriptions-do-not-reduce-stock-on-renewal/issues/3
+ * @since 1.1.0
+ */
+function wcs_maybe_update_woocommerce_hold_stock_minutes( $hold_stock_minutes ) {
+	if ( doing_action( 'woocommerce_check_cart_items' ) && is_callable( 'WC_Subscriptions_Cart', 'cart_contains_subscription' ) ) {
+		if ( WC_Subscriptions_Cart::cart_contains_subscription() ) {
+			return 0;
+		}
+	}
+
+	return $hold_stock_minutes;
+}
+
+add_filter( 'pre_option_woocommerce_hold_stock_minutes', 'wcs_maybe_update_woocommerce_hold_stock_minutes', 10, 1 );
