@@ -9,6 +9,7 @@
  *
  * GitHub Plugin URI: Prospress/woocommerce-subscriptions-do-not-reduce-stock-on-renewal
  * GitHub Branch: master
+ * Version: 1.0.0
  *
  * Copyright 2017 Prospress, Inc.  (email : freedoms@prospress.com)
  *
