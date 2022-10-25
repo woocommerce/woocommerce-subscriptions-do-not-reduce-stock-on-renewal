@@ -30,14 +30,33 @@
  * @since		1.0
 */
 
-function wcs_do_not_reduce_renewal_stock( $reduce_stock, $order ) {
-
-	if ( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order ) ) { // Subscriptions v2.0+
-		$reduce_stock = false;
-	} elseif ( class_exists( 'WC_Subscriptions_Renewal_Order' ) && WC_Subscriptions_Renewal_Order::is_renewal( $order ) ) {
-		$reduce_stock = false;
-	}
-
-	return $reduce_stock;
-}
-add_filter( 'woocommerce_can_reduce_order_stock', 'wcs_do_not_reduce_renewal_stock', 10, 2 );
+add_filter( 'woocommerce_can_reduce_order_stock',
+    function( $reduce_stock, $order ) {
+ 
+    if( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order ) ) {
+        return false;
+    }
+ 
+    if( class_exists( 'WC_Subscriptions_Renewal_Order' ) && WC_Subscriptions_Renewal_Order::is_renewal( $order ) ) {
+        return false;
+    }
+ 
+    return $reduce_stock;
+ 
+}, 10, 2 );
+ 
+add_filter( 'woocommerce_prevent_adjust_line_item_product_stock', function( $prevent, $item ) {
+ 
+    $order = $item->get_order();
+ 
+    if( function_exists( 'wcs_order_contains_renewal' ) && wcs_order_contains_renewal( $order ) ) {
+        return true;
+    }
+ 
+    if( class_exists( 'WC_Subscriptions_Renewal_Order' ) && WC_Subscriptions_Renewal_Order::is_renewal( $order ) ) {
+        return true;
+    }
+ 
+    return $prevent;
+ 
+}, 10, 2 );
