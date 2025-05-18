@@ -1,5 +1,7 @@
 # WooCommerce Subscriptions - Do Not Reduce Stock on Renewal
 
+> **IMPORTANT: This code is made available in the hope that it will be useful, but without any warranty. See the GNU General Public License included with the code for more details. Automattic or WooCommerce support services are also not available to assist with the use of this code.**
+
 Using [WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)? Want to reduce stock for only the initial purchase of subscription products?
 
 Install and activate this plugin.
